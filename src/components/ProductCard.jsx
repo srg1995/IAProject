@@ -12,7 +12,7 @@ function ProductCard({ product }) {
         <p className="product-description">{product.description}</p>
         <div className="product-footer">
           <span className="product-price">${product.price}</span>
-          <span className="product-stock">
+          <span className={`product-stock ${product.inStock ? 'in-stock' : 'out-of-stock'}`}>
             {product.inStock ? '✓ En stock' : '✗ Agotado'}
           </span>
         </div>
