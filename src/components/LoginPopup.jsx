@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import './LoginPopup.css';
 
+// Constants for timing
+const API_TIMEOUT = 1000; // Simulated API call duration
+const SUCCESS_MESSAGE_DURATION = 1500; // How long to show success message before action
+
 function LoginPopup({ isOpen, onClose }) {
   const [mode, setMode] = useState('login'); // 'login' or 'register'
   const [formData, setFormData] = useState({
@@ -30,8 +34,9 @@ function LoginPopup({ isOpen, onClose }) {
   };
 
   const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    // More robust email validation
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    return emailRegex.test(email) && !email.includes('..') && email.length <= 254;
   };
 
   const validatePassword = (password) => {
@@ -106,8 +111,8 @@ function LoginPopup({ isOpen, onClose }) {
       setTimeout(() => {
         resetForm();
         onClose();
-      }, 1500);
-    }, 1000);
+      }, SUCCESS_MESSAGE_DURATION);
+    }, API_TIMEOUT);
   };
 
   const handleRegister = async (e) => {
@@ -129,8 +134,8 @@ function LoginPopup({ isOpen, onClose }) {
       setTimeout(() => {
         setMode('login');
         resetForm();
-      }, 1500);
-    }, 1000);
+      }, SUCCESS_MESSAGE_DURATION);
+    }, API_TIMEOUT);
   };
 
   const resetForm = () => {
